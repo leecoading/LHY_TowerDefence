@@ -4,15 +4,37 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public float speed = 10f;
+    private Transform target;
+    private int wavepointIndex = 0;
+
+    private void Start()
     {
-        
+        target = WayPoints.points[0];
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        Vector3 dir = target.position - transform.position;
+        transform.Translate(dir.normalized * speed * Time.deltaTime, Space.World);
+
+        if (Vector3.Distance(transform.position, target.position) <= 0.4f)
+        {
+            GetNextWayPoint();
+        }
+    }
+
+    /// <summary>
+    /// 이동할 위치(WayPoints)에 Enemy를 이동시키는 코드.
+    /// </summary>
+    private void GetNextWayPoint()
+    {
+        if(wavepointIndex >= WayPoints.points.Length - 1)
+        {
+            Destroy(gameObject);
+        }
+
+        wavepointIndex++;
+        target = WayPoints.points[wavepointIndex];
     }
 }
