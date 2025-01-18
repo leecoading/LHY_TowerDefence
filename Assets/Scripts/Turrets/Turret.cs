@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class Turret : MonoBehaviour
 {
+    [Header ("Turret Rotate Option")]
     [SerializeField] Transform turretTarget;
     [SerializeField] Transform rotatePart;
     [SerializeField] float turretRange = 15f;
     [SerializeField] float turretTurnSpeed = 10f;
     public string enemyTag = "Enemy";
+
+    [Header ("Turret Fire Option")]
+    [SerializeField] float fireRate = 1f;
+    private float fireCountdown = 0f;
 
     private void Start()
     {
@@ -28,6 +33,19 @@ public class Turret : MonoBehaviour
 
         //터렛 회전이 y축을 기준으로 회전하게 설정.
         rotatePart.rotation = Quaternion.Euler(0f, rotation.y, 0f);
+
+        if(fireCountdown <= 0f)
+        {
+            Shoot();
+            fireCountdown = 1f / fireRate;
+        }
+
+        fireCountdown -= Time.deltaTime;
+    }
+
+    private void Shoot()
+    {
+
     }
 
     /// <summary>
