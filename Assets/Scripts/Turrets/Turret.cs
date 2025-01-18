@@ -15,6 +15,10 @@ public class Turret : MonoBehaviour
     [SerializeField] float fireRate = 1f;
     private float fireCountdown = 0f;
 
+    [SerializeField] GameObject bulletPrefab;
+    [SerializeField] Transform firePoint;
+    [SerializeField] GameObject shootEffect;
+
     private void Start()
     {
         //0.5초마다 반복해서 UpdateTarget메서드 호출.
@@ -45,7 +49,16 @@ public class Turret : MonoBehaviour
 
     private void Shoot()
     {
+        GameObject bulletGO = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+        Bullet bullet = bulletGO.GetComponent<Bullet>();
 
+        GameObject effect = Instantiate(shootEffect, firePoint.position, firePoint.rotation);
+        Destroy(effect, 1f);
+
+        if (bullet != null)
+        {
+            bullet.Seek(turretTarget);
+        }
     }
 
     /// <summary>

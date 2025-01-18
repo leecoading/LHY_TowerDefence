@@ -10428,7 +10428,7 @@ Transform:
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
   m_LocalRotation: {x: 0.5735764, y: 0, z: 0, w: 0.8191521}
-  m_LocalPosition: {x: 5, y: 100, z: -100}
+  m_LocalPosition: {x: 15.3, y: 42.15, z: -66.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -23206,6 +23206,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Turret
       objectReference: {fileID: 0}
+    - target: {fileID: 4237509572769747704, guid: 55ea8e278f8efbf4da8e6f58cbfbf681, type: 3}
+      propertyPath: shootEffect
+      value: 
+      objectReference: {fileID: 100006, guid: 2e7e92bc7175b744ea40878dedfa79e4, type: 3}
+    - target: {fileID: 4237509572769747704, guid: 55ea8e278f8efbf4da8e6f58cbfbf681, type: 3}
+      propertyPath: turretTarget
+      value: 
+      objectReference: {fileID: 6987125042441001040, guid: ce76aaf35b6367e4990c36593861b0c0, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
