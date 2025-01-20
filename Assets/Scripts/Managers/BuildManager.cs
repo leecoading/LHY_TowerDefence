@@ -5,14 +5,16 @@ using UnityEngine;
 public class BuildManager : MonoBehaviour
 {
     private GameObject turretToBuild;
-    [SerializeField] GameObject standardTurretPrefab;
+    public GameObject standardTurretPrefab;
+    public GameObject anotherTurretPrefab;
 
-    private void Start()
-    {
-        turretToBuild = standardTurretPrefab;
-    }
     public GameObject GetTurretToBuild()
     {
         return turretToBuild;
+    }
+
+    public void SetTurretToBuild(GameObject turret)
+    {
+        turretToBuild = turret;
     }
 }
