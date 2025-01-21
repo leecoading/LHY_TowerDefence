@@ -7,6 +7,7 @@ public class Bullet : MonoBehaviour
     private Transform target;
 
     [SerializeField] float speed = 70f;
+    [SerializeField] float explosionRadius;
     [SerializeField] GameObject bulletEffect;
     public void Seek (Transform _target)
     {
@@ -40,4 +41,5 @@ public class Bullet : MonoBehaviour
 
         Destroy(gameObject);
     }
+
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Turret : MonoBehaviour
 {
     [Header ("Turret Rotate Option")]
-    [SerializeField] Transform turretTarget;
+    private Transform turretTarget;
     [SerializeField] Transform rotatePart;
     [SerializeField] float turretRange = 15f;
     [SerializeField] float turretTurnSpeed = 10f;
@@ -22,7 +22,7 @@ public class Turret : MonoBehaviour
     private void Start()
     {
         //0.5초마다 반복해서 UpdateTarget메서드 호출.
-        InvokeRepeating("UpdateTarget", 0f, 0.5f);
+        InvokeRepeating(nameof(UpdateTarget), 0f, 0.5f);
     }
 
     private void Update()
