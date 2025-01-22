@@ -47,7 +47,7 @@ public class Node : MonoBehaviour
         }
 
         GameObject turretToBuild = Map.BuildManager.GetTurretToBuild();
-        Vector3 buildPosition = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+        Vector3 buildPosition = new Vector3(transform.position.x, turretToBuild.transform.position.y, transform.position.z);
         turret = Instantiate(turretToBuild, buildPosition, transform.rotation);
     }
 }
