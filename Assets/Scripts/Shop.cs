@@ -4,8 +4,9 @@ public class Shop : MonoBehaviour
 {
     public TurretBluePrint standardTurret;
     public TurretBluePrint missleTurret;
+    public TurretBluePrint LaserTurret;
 
-    BuildManager buildManager;
+   BuildManager buildManager;
 
     private void Start()
     {
@@ -19,5 +20,10 @@ public class Shop : MonoBehaviour
     public void SelectMissleTurret()
     {
         buildManager.SelectTurretToBuild(missleTurret);
+    }
+
+    public void SelectLaserTurret()
+    {
+        buildManager.SelectTurretToBuild(LaserTurret);
     }
 }

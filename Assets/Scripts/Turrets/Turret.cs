@@ -15,6 +15,10 @@ public class Turret : MonoBehaviour
     [SerializeField] float fireRate = 1f;
     private float fireCountdown = 0f;
 
+    [Header("Laser Fire Option")]
+    public bool useLaser = false;
+    public LineRenderer lineRenderer;
+
     [SerializeField] GameObject bulletPrefab;
     [SerializeField] Transform firePoint;
     [SerializeField] GameObject shootEffect;
@@ -28,8 +32,35 @@ public class Turret : MonoBehaviour
     private void Update()
     {
         if (turretTarget == null)
+        {
+            if(useLaser)
+            {
+                if(lineRenderer.enabled)
+                    lineRenderer.enabled = false;
+            }
             return;
+        }
 
+        LockOnTarget();
+
+        if(useLaser)
+        {
+            Laser();
+        }
+        else
+        {
+            if (fireCountdown <= 0f)
+            {
+                Shoot();
+                fireCountdown = 1f / fireRate;
+            }
+
+            fireCountdown -= Time.deltaTime;
+        }
+    }
+
+    private void LockOnTarget()
+    {
         //transform.Lookat을 쓰지 않고 y축에 관한 연산만 하여 성능 유리.
         Vector3 dir = turretTarget.position - transform.position;
         Quaternion lookRotation = Quaternion.LookRotation(dir);
@@ -37,14 +68,17 @@ public class Turret : MonoBehaviour
 
         //터렛 회전이 y축을 기준으로 회전하게 설정.
         rotatePart.rotation = Quaternion.Euler(0f, rotation.y, 0f);
+    }
 
-        if(fireCountdown <= 0f)
+    private void Laser()
+    {
+        if (!lineRenderer.enabled)
         {
-            Shoot();
-            fireCountdown = 1f / fireRate;
+            lineRenderer.enabled = true;
         }
 
-        fireCountdown -= Time.deltaTime;
+        lineRenderer.SetPosition(0, firePoint.position);
+        lineRenderer.SetPosition(1, turretTarget.position);
     }
 
     private void Shoot()
