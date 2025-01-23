@@ -1,12 +1,17 @@
 using UnityEngine.EventSystems;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Node : MonoBehaviour
 {
     [SerializeField] Color hoverColor;
+    [SerializeField] Color notEnoughMoneyColor;
+    public Vector3 positionOffset;
     private Renderer rend;
     private Color startColor;
-    private GameObject turret;
+
+    [Header ("Optional")]
+    public GameObject turret;
 
     BuildManager buildManager;
 
@@ -17,16 +22,32 @@ public class Node : MonoBehaviour
 
         buildManager = Map.BuildManager;
     }
+
+    public Vector3 GetBuildPosition(TurretBluePrint turretToBuild)
+    {
+        Vector3 BuildPosition = new Vector3(transform.position.x, turretToBuild.prefab.transform.position.y, transform.position.z);
+        return BuildPosition + positionOffset;
+    }
+
     private void OnMouseEnter()
     {
         if(EventSystem.current.IsPointerOverGameObject())
             return;
 
-        if (buildManager.GetTurretToBuild() == null)
+        if (!buildManager.CanBuild)
             return;
 
-        rend.material.color = hoverColor;
+        if(buildManager.HasMoney)
+        {
+            rend.material.color = hoverColor;
+        }
+        
+        else
+        {
+            rend.material.color = notEnoughMoneyColor;
+        }
     }
+
     private void OnMouseExit()
     {
         rend.material.color = startColor;
@@ -37,7 +58,7 @@ public class Node : MonoBehaviour
         if (EventSystem.current.IsPointerOverGameObject())
             return;
 
-        if (buildManager.GetTurretToBuild() == null)
+        if (!buildManager.CanBuild)
             return;
 
         if(turret != null)
@@ -46,8 +67,6 @@ public class Node : MonoBehaviour
             return;
         }
 
-        GameObject turretToBuild = Map.BuildManager.GetTurretToBuild();
-        Vector3 buildPosition = new Vector3(transform.position.x, turretToBuild.transform.position.y, transform.position.z);
-        turret = Instantiate(turretToBuild, buildPosition, transform.rotation);
+        Map.BuildManager.BuildTurretOn(this);
     }
 }

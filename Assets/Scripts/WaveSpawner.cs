@@ -10,9 +10,9 @@ public class WaveSpawner : MonoBehaviour
 
     [SerializeField] private float enemySpawnDistance = 1f;
 
-    public float timeBetweenWaves = 5f;
+    public float timeBetweenWaves = 20f;
     private float countdown = 2f;
-    public TextMeshProUGUI waveCountdownText;
+    public Text waveCountdownText;
 
     private int waveNumber = 1;
 
@@ -26,7 +26,9 @@ public class WaveSpawner : MonoBehaviour
 
         //매초 1씩 감소.
         countdown -= Time.deltaTime;
-        waveCountdownText.text = Mathf.Round(countdown).ToString();
+
+        countdown = Mathf.Clamp(countdown, 0f, Mathf.Infinity);
+        waveCountdownText.text = string.Format("{0:00.00}", countdown);
     }
 
     IEnumerator SpawnWave()
