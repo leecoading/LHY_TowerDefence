@@ -7,8 +7,8 @@ public class Bullet : MonoBehaviour
     private Transform target;
 
     [SerializeField] float speed = 70f;
-    [SerializeField] float explosionRadius;
     [SerializeField] GameObject bulletEffect;
+    public int bulletDamage = 50;
     public void Seek (Transform _target)
     {
         target = _target;
@@ -38,8 +38,18 @@ public class Bullet : MonoBehaviour
     {
         GameObject effect = Instantiate(bulletEffect, transform.position, transform.rotation);
         Destroy(effect, 2f);
-
+        Damage(target);
+        
         Destroy(gameObject);
     }
 
+    void Damage(Transform enemy)
+    {
+        Enemy e = enemy.GetComponent<Enemy>();
+
+        if (e != null)
+        {
+            e.TakeDamage(bulletDamage);
+        }
+    }
 }
