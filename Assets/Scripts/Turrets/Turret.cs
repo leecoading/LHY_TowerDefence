@@ -6,6 +6,8 @@ public class Turret : MonoBehaviour
 {
     [Header ("Turret Rotate Option")]
     private Transform turretTarget;
+    private Enemy enemyTarget;
+
     [SerializeField] Transform rotatePart;
     [SerializeField] float turretRange = 15f;
     [SerializeField] float turretTurnSpeed = 10f;
@@ -17,7 +19,10 @@ public class Turret : MonoBehaviour
 
     [Header("Laser Fire Option")]
     public bool useLaser = false;
+    public int damageOverTime = 100;
+
     public LineRenderer lineRenderer;
+    public ParticleSystem impactEffect;
 
     [SerializeField] GameObject bulletPrefab;
     [SerializeField] Transform firePoint;
@@ -36,7 +41,10 @@ public class Turret : MonoBehaviour
             if(useLaser)
             {
                 if(lineRenderer.enabled)
+                {
                     lineRenderer.enabled = false;
+                    impactEffect.Stop();
+                }
             }
             return;
         }
@@ -72,13 +80,22 @@ public class Turret : MonoBehaviour
 
     private void Laser()
     {
+        enemyTarget.TakeDamage(damageOverTime * Time.deltaTime);
+
         if (!lineRenderer.enabled)
         {
             lineRenderer.enabled = true;
+            impactEffect.Play();
         }
 
         lineRenderer.SetPosition(0, firePoint.position);
         lineRenderer.SetPosition(1, turretTarget.position);
+
+        Vector3 dir = firePoint.position - turretTarget.position;
+
+        impactEffect.transform.position = turretTarget.position + dir.normalized * .5f;
+        impactEffect.transform.rotation = Quaternion.LookRotation(dir);
+
     }
 
     private void Shoot()
@@ -118,6 +135,7 @@ public class Turret : MonoBehaviour
         if(nearstEnemy != null && shortestDistance <= turretRange)
         {
             turretTarget = nearstEnemy.transform;
+            enemyTarget = nearstEnemy.GetComponent<Enemy>();
         }
         else
         {
